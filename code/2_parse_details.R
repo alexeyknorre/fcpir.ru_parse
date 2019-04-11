@@ -7,7 +7,9 @@ df <- readRDS("data/project_links.rds")
 # Function that extracts project details
 get_project_details <- function(project_url){
   project_row <- read_html(project_url) %>%
-    html_table(fill=T) %>% .[[1]] %>% .[1:14,2]
+    html_table(fill=T) %>% .[[1]] %>%
+    .[!grepl("Планируемый результат проекта", .[,2]),] %>% 
+    .[1:14,2]
   
   project_row[12:14] <- gsub("\n.*","",project_row[12:14])
   
